@@ -1,0 +1,8 @@
+body {
+    background-image: url("/images/background.jpg");
+    background-size: cover;
+}
+
+.modal-back-bg {
+    background-color: rgba(0, 0, 0, 0.7);
+}
