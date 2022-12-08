@@ -12,7 +12,6 @@
 <body>
     @include('partials._navbar')
     @yield('content')
-    <x-upload-modal />
 
 
     <script src="{{asset('js/app.js')}}"></script>

@@ -57,24 +57,33 @@ absolute top-48 left-1/2 -translate-x-1/2">
                     </label>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <input type="text" placeholder="Folder name..." name="folderName"
+                    <input type="text" placeholder="Folder name..." name="folderName" autocomplete="off"
                     class="w-full p-2 text-2xl rounded-lg 
                     bg-neutral-800 text-white">
                     <input type="file" id="folder-file" class="hidden">
                     <select name="folderPath" id="folder-path" 
                     class="w-full p-2 text-2xl rounded-lg bg-neutral-800 text-white">
                         <option value="" selected>Choose folder path</option>
-                        <option value="">2</option>
-                        <option value="">2</option>
-                        <option value="">2</option>
+                        @foreach ($folders as $folder)
+                            <option value="{{$folder}}">{{$folder}}</option>
+                        @endforeach
                     </select>
-                    <select name="subfolderPath" id="subfolder-path" 
-                    class="w-full p-2 text-2xl rounded-lg bg-neutral-800 text-white">
-                        <option value="" selected>Choose sub folder path</option>
-                        <option value="">2</option>
-                        <option value="">2</option>
-                        <option value="">2</option>
-                    </select>
+                    @if (!$isSub)
+                        <select name="subfolderPath" id="subfolder-path" 
+                        class="w-full p-2 text-2xl rounded-lg bg-neutral-800 text-white" disabled>
+                            <option value="" selected>Choose sub folder path</option>
+                        </select>
+                    @endif
+                    @if ($isSub)
+                        <select name="subfolderPath" id="subfolder-path" 
+                        class="w-full p-2 text-2xl rounded-lg bg-neutral-800 text-white">
+                            <option value="" selected>Choose sub folder path</option>
+                            @foreach ($subfolders as $subfolder)
+                                <option value="{{$subfolder}}">{{$subfolder}}</option>
+                            @endforeach
+                        </select>
+                    @endif
+                    
                     <button class="w-full px-4 py-2 rounded-full bg-red-500 border-2 border-red-900
                     text-2xl text-white font-semibold" onclick="document.getElementById('folder-file').click()">
                         Select File
