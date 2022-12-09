@@ -12,11 +12,9 @@
 <body>
     @include('partials._navbar')
     @yield('content')
-    @yield('confirmation')
 
 
-
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{asset('js/app.js')}}"></script>
+    <script src="{{asset('js/functions.js')}}"></script>
 </body>
 </html>

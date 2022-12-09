@@ -8,6 +8,7 @@ const createForm = document.getElementById('create-form');  // Create folder for
 const uploadButtons = document.getElementById('upload-buttons');    // Buttons wrapper
 const uploadBackBtn = document.getElementById('upload-back');   // Back from upload button
 const createBackBtn = document.getElementById('create-back');   // Back from create folder button
+const subFolderSelect = document.getElementById('subfolder-path');  // Subfolder path select
 
 // Handle upload modal
 mainUploadBtn.addEventListener('click', () => {
@@ -41,3 +42,22 @@ createBackBtn.addEventListener('click', () => {
     createForm.classList.add('hidden');
     uploadButtons.classList.remove('hidden');
 });
+
+// Get sub directories
+function getSubDir(parent) {
+    axios.post('/api/files/subfolders', {parent: parent})
+    .then((response) => {
+        if (response.data !== "nope") {
+            subFolderSelect.disabled = false;
+            subFolderSelect.setAttribute('required', '');
+            response.data.forEach(sub => {
+                let selectOption = document.createElement('option');
+                selectOption.value = sub;
+                selectOption.innerHTML = sub;
+                subFolderSelect.appendChild(selectOption);
+            });
+        }
+    }).catch((error) => {
+        console.log(error)
+    });
+}
