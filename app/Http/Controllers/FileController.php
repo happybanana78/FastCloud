@@ -72,7 +72,6 @@ class FileController extends Controller
 
     // Upload file after folder creation
     private function fileUpload($file, $path) {
-        $file->name('test');
         Storage::disk('files')->put($path, $file);
     }
 
