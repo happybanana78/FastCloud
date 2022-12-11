@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+    @include('partials._uploadModal')
     <main class="bg-neutral-800 w-full rounded-lg flex justify-center p-20 border-2
     border-zinc-900 shadow-2xl mt-20">
         <div class="flex flex-col space-y-20 w-full">
