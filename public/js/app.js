@@ -49,13 +49,19 @@ function getSubDir(parent) {
     .then((response) => {
         if (response.data !== "nope") {
             subFolderSelect.disabled = false;
-            subFolderSelect.setAttribute('required', '');
             response.data.forEach(sub => {
                 let selectOption = document.createElement('option');
                 selectOption.value = sub;
+                selectOption.classList.add('sub-dir')
                 selectOption.innerHTML = sub;
                 subFolderSelect.appendChild(selectOption);
             });
+        } else {
+            const options = document.getElementsByClassName('sub-dir');
+            for(let i = 0; i < options.length; i++) {
+                subFolderSelect.removeChild(options[i]);
+            }
+            subFolderSelect.disabled = true;
         }
     }).catch((error) => {
         console.log(error)

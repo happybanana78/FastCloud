@@ -91,7 +91,7 @@ absolute top-10 left-1/2 -translate-x-1/2">
                     </select>
                     <label for="folder-file"
                     class="w-full px-4 py-2 rounded-lg bg-red-500 border-2 border-red-900
-                    text-2xl text-white font-semibold">
+                    text-2xl text-white font-semibold text-center cursor-pointer">
                     Select File
                     </label>
                 </div>

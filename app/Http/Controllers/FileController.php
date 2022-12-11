@@ -42,7 +42,11 @@ class FileController extends Controller
                 }
             }
 
-            return Response()->json($subFolderList);
+            if (empty($subFolderList)) {
+                return Response()->json('nope');
+            } else {
+                return Response()->json($subFolderList);
+            }
         } else {
             return Response()->json('nope');
         }
@@ -50,23 +54,30 @@ class FileController extends Controller
 
     // Create new folder
     public function createFolder(Request $request) {
-        if ($request->input('foldersubPath') == 'choose') {
+        if ($request->input('subfolderPath') == 'choose' && $request->input('folderPath') != 'choose') {
             $path = "assets/files/" . $request->input('folderPath') .
             "/" . $request->input('folderName');
             $simplePath = $request->input('folderPath') .
             "/" . $request->input('folderName');
-        } else {
+        } 
+        else if ($request->input('subfolderPath') != 'choose' && $request->input('folderPath') != 'choose') {
             $path = "assets/files/" . $request->input('folderPath') .
-            "/" . $request->input('foldersubPath') . "/" . $request->input('folderName');
+            "/" . $request->input('subfolderPath') . "/" . $request->input('folderName');
             $simplePath = $request->input('folderPath') .
-            "/" . $request->input('foldersubPath') . "/" . $request->input('folderName');
+            "/" . $request->input('subfolderPath') . "/" . $request->input('folderName');
         }
+        else if ($request->input('folderPath') == 'choose') {
+            $path = "assets/files/" . $request->input('folderName');
+            $simplePath = $request->input('folderName');
+        }
+
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
             $this->fileUpload($request->file('file'), $simplePath);
-            return view('confirmation');
+            return view('confirmation')->with('success', 'Folder created successfully and file uploaded
+            to the same path.');
         } else {
-            return view('confirmation');
+            return view('confirmation')->with('createError', 'The folder already exists!');
         }
     }
 
