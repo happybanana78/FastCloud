@@ -83,7 +83,8 @@ class FileController extends Controller
 
     // Upload file after folder creation
     private function fileUpload($file, $path) {
-        Storage::disk('files')->put($path, $file);
+        //Storage::disk('files')->put($path, $file);
+        $file->storeAs($path, md5_file($file->getRealPath()) . "." . $file->getClientOriginalName(), 'files');
     }
 
     // Stand alone upload file
