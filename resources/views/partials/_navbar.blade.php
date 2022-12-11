@@ -1,5 +1,7 @@
 <nav class="flex justify-between items-center px-20 mt-10">
-    <img alt="logo" src="{{asset('images/logo.png')}}" class="w-60">
+    <a href="/">
+      <img alt="logo" src="{{asset('images/logo.png')}}" class="w-60">
+    </a>
     <div class="text-white font-semibold text-2xl space-x-5">
       <a href="" class="space-x-4 hover:text-red-600">
         <i class="fa-regular fa-folder-open"></i>
