@@ -18,13 +18,20 @@ class FileController extends Controller
 
         foreach($folderList as $folder) {
             if (basename($folder) != '.' && basename($folder) != '..') {
-                array_push($folderNameList, basename($folder));
+                if (is_dir($path . "/" . basename($folder))) {
+                    array_push($folderNameList, basename($folder));
+                }
             }
         }
 
         return view('main', [
             "folders" => $folderNameList,
         ]);
+    }
+
+    // Route to confirmation page
+    public function toConfirmation() {
+        return view('confirmation');
     }
 
     // Get sub folders
@@ -74,10 +81,10 @@ class FileController extends Controller
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
             $this->fileUpload($request->file('file'), $simplePath);
-            return view('confirmation')->with('success', 'Folder created successfully and file uploaded
+            return redirect("/confirmation")->with('createSuccess', 'Folder created successfully and file uploaded
             to the same path.');
         } else {
-            return view('confirmation')->with('createError', 'The folder already exists!');
+            return redirect("/confirmation")->with('createError', 'The folder already exists!');
         }
     }
 
@@ -89,6 +96,22 @@ class FileController extends Controller
 
     // Stand alone upload file
     public function uploadFile(Request $request) {
+        if ($request->input('subfolderPath') == 'choose' && $request->input('folderPath') != 'choose') {
+            $path = $request->input('folderPath');
+        } 
+        else if ($request->input('subfolderPath') != 'choose' && $request->input('folderPath') != 'choose') {
+            $path = $request->input('folderPath') . "/" . $request->input('subfolderPath');
+        }
+        else if ($request->input('folderPath') == 'choose') {
+            $path = "";
+        }
 
+        if (!file_exists($path)) {
+            $file = $request->file('file');
+            $file->storeAs($path, md5_file($file->getRealPath()) . "." . $file->getClientOriginalName(), 'files');
+            return redirect("/confirmation")->with('uploadSuccess', 'File uploaded successfully.');
+        } else {
+            return redirect("/confirmation")->with('uploadError', 'The file already exists!');
+        }
     }
 }
