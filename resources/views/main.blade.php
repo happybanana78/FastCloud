@@ -8,12 +8,38 @@
             <div>
                 <h2 class="text-red-800 font-semibold text-3xl shadow-text">YOUR FILES</h2>
             </div>
-            <div class="flex justify-between items-center font-semibold text-xl text-red-800
-            w-full shadow-text">
-                <span>File Name</span>
-                <span>File Size</span>
-                <span>File Format</span>
-                <span>Upload Date</span>
+            <div class="flex flex-col font-semibold w-full shadow-text
+            space-y-5">
+                <div class="flex justify-between text-2xl text-red-800">
+                    <div class="w-full flex justify-center">
+                        <span>File Name</span>
+                    </div>
+                    <div class="w-full flex justify-center">
+                        <span>File Size</span>
+                    </div>
+                    <div class="w-full flex justify-center">
+                        <span>File Path</span>
+                    </div>
+                    <div class="w-full flex justify-center">
+                        <span>File Format</span>
+                    </div>
+                </div>
+                @foreach ($files as $file)
+                    <div class="flex justify-between text-xl text-white">
+                        <div class="w-full flex justify-center">
+                            <span>{{$file['name']}}</span>
+                        </div>
+                        <div class="w-full flex justify-center">
+                            <span>{{$file['size']}}</span>
+                        </div>
+                        <div class="w-full flex justify-center">
+                            <span class="">{{$file['location']}}</span>
+                        </div>
+                        <div class="w-full flex justify-center">
+                            <span>{{$file['format']}}</span>
+                        </div>
+                    </div>
+                @endforeach
             </div> 
         </div>
     </main>

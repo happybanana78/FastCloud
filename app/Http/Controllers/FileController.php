@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
@@ -12,10 +13,9 @@ class FileController extends Controller
     public function index() {
         $path = 'assets/files';
         $folderNameList = [];
-        $subFolderNameList = [];
-        $hasSubDir = false;
         $folderList = scandir($path);
 
+        // Get all folders names
         foreach($folderList as $folder) {
             if (basename($folder) != '.' && basename($folder) != '..') {
                 if (is_dir($path . "/" . basename($folder))) {
@@ -24,9 +24,52 @@ class FileController extends Controller
             }
         }
 
+        // Get all file names
+        foreach($folderList as $folder) {
+            if (basename($folder) != '.' && basename($folder) != '..') {
+                if (!is_dir($path . "/" . basename($folder))) {
+                    $this->setFileInfo($folder, $path);
+                } else {
+                    $subDir = scandir($path . "/" . basename($folder));
+                    foreach ($subDir as $folder2) {
+                        if (!is_dir($path . "/" . basename($folder). "/" . basename($folder2))) {
+                            $this->setFileInfo($folder2, $path . "/" . basename($folder));
+                        }
+                    } 
+                }
+            }
+        }
+
         return view('main', [
             "folders" => $folderNameList,
+            "files" => File::all(),
         ]);
+    }
+
+    // Set files
+    private function setFileInfo($file, $path) {
+        // Set file name
+        $filterFile = explode(".", basename($file));
+        $readableName = $filterFile[1] . "." . $filterFile[2];
+        // Set file path
+        $filePath = $path;
+        // Set file size
+        $fileSize = filesize($path . "/" . basename($file)) * 1000;
+        // Set file extension
+        $filterFileExtension = explode(".", basename($file));
+        $fileExtension = $filterFileExtension[2];
+        
+        // Check if the file entry has already been created
+        $fileRecord = File::where('name', "=", $readableName)->first();
+
+        if ($fileRecord === null) {
+            File::create([
+                "name" => $readableName,
+                "location" => $filePath,
+                "size" => $fileSize,
+                "format" => $fileExtension,
+            ]);
+        }
     }
 
     // Route to confirmation page
