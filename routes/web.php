@@ -16,4 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FileController::class, 'index']);
 
+Route::get('/confirmation', [FileController::class, 'toConfirmation']);
+
 Route::post('/files/folder/create', [FileController::class, 'createFolder']);
+
+Route::post('/files/upload', [FileController::class, 'uploadFile']);
