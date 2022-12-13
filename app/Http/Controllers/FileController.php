@@ -64,6 +64,7 @@ class FileController extends Controller
 
         if ($fileRecord === null) {
             File::create([
+                "realName" => basename($file),
                 "name" => $readableName,
                 "location" => $filePath,
                 "size" => $fileSize,

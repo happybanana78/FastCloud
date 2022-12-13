@@ -23,20 +23,37 @@
                     <div class="w-full flex justify-center">
                         <span>File Format</span>
                     </div>
+                    <div class="w-full flex justify-center">
+                        <span>File Date</span>
+                    </div>
+                    <div class="w-full flex justify-center">
+                        <span></span>
+                    </div>
                 </div>
                 @foreach ($files as $file)
-                    <div class="flex justify-between text-xl text-white">
-                        <div class="w-full flex justify-center">
+                    <div class="flex justify-between text-xl text-white items-center">
+                        <div class="w-full flex justify-center items-center">
                             <span>{{$file['name']}}</span>
                         </div>
-                        <div class="w-full flex justify-center">
+                        <div class="w-full flex justify-center items-center">
                             <span>{{$file['size']}}</span>
                         </div>
-                        <div class="w-full flex justify-center">
+                        <div class="w-full flex justify-center items-center">
                             <span class="">{{$file['location']}}</span>
                         </div>
-                        <div class="w-full flex justify-center">
+                        <div class="w-full flex justify-center items-center">
                             <span>{{$file['format']}}</span>
+                        </div>
+                        <div class="w-full flex justify-center items-center">
+                            <span>{{$file['created_at']}}</span>
+                        </div>
+                        <div class="w-full flex justify-center items-center">
+                            <span>
+                                <a href="{{$file['location']}}">
+                                    <i class="fa-solid fa-download cursor-pointer
+                                    text-3xl"></i>
+                                </a>
+                            </span>
                         </div>
                     </div>
                 @endforeach
