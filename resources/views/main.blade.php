@@ -8,7 +8,33 @@
             <div>
                 <h2 class="text-red-800 font-semibold text-3xl shadow-text">YOUR FILES</h2>
             </div>
-            <div class="flex flex-col font-semibold w-full shadow-text
+            <table class="table-auto border-separate border-spacing-y-10">
+                <tr class="text-3xl text-red-800">
+                    <th>File Name</th>
+                    <th>File Size</th>
+                    <th>File Path</th>
+                    <th>File Format</th>
+                    <th>File Date</th>
+                    <th></th>
+                </tr>
+                @foreach ($files as $file)
+                    <tr class="text-2xl text-white text-center">
+                        <td>{{$file['name']}}</td>
+                        <td>{{$file['size']}}</td>
+                        <td>{{$file['location']}}</td>
+                        <td>{{$file['format']}}</td>
+                        <td>{{$file['created_at']}}</td>
+                        <td>
+                            <a href="{{$file['location'] . "/" . $file['realName']}}"
+                            download="{{$file['name']}}">
+                                <i class="fa-solid fa-download cursor-pointer
+                                text-3xl"></i>
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+            {{-- <div class="flex flex-col font-semibold w-full shadow-text
             space-y-5">
                 <div class="flex justify-between text-2xl text-red-800">
                     <div class="w-full flex justify-center">
@@ -57,7 +83,7 @@
                         </div>
                     </div>
                 @endforeach
-            </div> 
+            </div>  --}}
         </div>
     </main>
 @endsection

@@ -34,6 +34,17 @@ class FileController extends Controller
                     foreach ($subDir as $folder2) {
                         if (!is_dir($path . "/" . basename($folder). "/" . basename($folder2))) {
                             $this->setFileInfo($folder2, $path . "/" . basename($folder));
+                        } else {
+                            $subDir2 = scandir($path . "/" . basename($folder) . "/" . basename($folder2));
+                            foreach ($subDir2 as $folder3) {
+                                if (!is_dir($path . "/" . basename($folder). "/" . basename($folder2) . "/" . 
+                                basename($folder3))) {
+                                    $this->setFileInfo($folder3, $path . "/" . basename($folder) . "/" . 
+                                    basename($folder2));
+                                } else {
+                                    // one more layer deep (to do)
+                                }
+                            }
                         }
                     } 
                 }
@@ -54,7 +65,17 @@ class FileController extends Controller
         // Set file path
         $filePath = $path;
         // Set file size
-        $fileSize = filesize($path . "/" . basename($file)) * 1000;
+        $fileSize = round(filesize($path . "/" . basename($file)));
+        $editedFileSize = "";
+        if ($fileSize <= 1024.4 * 1000) {
+            $editedFileSize = round($fileSize / 1024.4) . " " . "KB";
+        }
+        if ($fileSize <= (1024.4 * 1000) * 1000 && $fileSize > 1024.4 * 1000) {
+            $editedFileSize = round($fileSize / 1024.4 / 1024.4) . " " . "MB";
+        }
+        if ($fileSize > (1024.4 * 1000) * 1000) {
+            $editedFileSize = round($fileSize / 1024.4 / 1024.4 / 1024.4) . " " . "GB";
+        }
         // Set file extension
         $filterFileExtension = explode(".", basename($file));
         $fileExtension = $filterFileExtension[2];
@@ -67,7 +88,7 @@ class FileController extends Controller
                 "realName" => basename($file),
                 "name" => $readableName,
                 "location" => $filePath,
-                "size" => $fileSize,
+                "size" => $editedFileSize,
                 "format" => $fileExtension,
             ]);
         }
