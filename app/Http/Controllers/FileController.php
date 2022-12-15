@@ -42,7 +42,15 @@ class FileController extends Controller
                                     $this->setFileInfo($folder3, $path . "/" . basename($folder) . "/" . 
                                     basename($folder2));
                                 } else {
-                                    // one more layer deep (to do)
+                                    $subDir3 = scandir($path . "/" . basename($folder) . "/" . basename($folder2) .
+                                "/" . basename($folder3));
+                                    foreach ($subDir3 as $folder4) {
+                                        if (!is_dir($path . "/" . basename($folder). "/" . basename($folder2) . "/" . 
+                                        basename($folder3) . "/" . basename($folder4))) {
+                                            $this->setFileInfo($folder4, $path . "/" . basename($folder) . "/" . 
+                                            basename($folder2) . "/" . $folder3);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -68,20 +76,20 @@ class FileController extends Controller
         $fileSize = round(filesize($path . "/" . basename($file)));
         $editedFileSize = "";
         if ($fileSize <= 1024.4 * 1000) {
-            $editedFileSize = round($fileSize / 1024.4) . " " . "KB";
+            $editedFileSize = round($fileSize / 1024.4, 1) . " " . "KB";
         }
         if ($fileSize <= (1024.4 * 1000) * 1000 && $fileSize > 1024.4 * 1000) {
-            $editedFileSize = round($fileSize / 1024.4 / 1024.4) . " " . "MB";
+            $editedFileSize = round($fileSize / 1024.4 / 1024.4, 1) . " " . "MB";
         }
         if ($fileSize > (1024.4 * 1000) * 1000) {
-            $editedFileSize = round($fileSize / 1024.4 / 1024.4 / 1024.4) . " " . "GB";
+            $editedFileSize = round($fileSize / 1024.4 / 1024.4 / 1024.4, 1) . " " . "GB";
         }
         // Set file extension
         $filterFileExtension = explode(".", basename($file));
         $fileExtension = $filterFileExtension[2];
         
         // Check if the file entry has already been created
-        $fileRecord = File::where('name', "=", $readableName)->first();
+        $fileRecord = File::where('realName', "=", basename($file))->first();
 
         if ($fileRecord === null) {
             File::create([
@@ -156,7 +164,7 @@ class FileController extends Controller
     // Upload file after folder creation
     private function fileUpload($file, $path) {
         //Storage::disk('files')->put($path, $file);
-        $file->storeAs($path, md5_file($file->getRealPath()) . "." . $file->getClientOriginalName(), 'files');
+        $file->storeAs($path, md5($file->getRealPath()) . "." . $file->getClientOriginalName(), 'files');
     }
 
     // Stand alone upload file
@@ -173,10 +181,12 @@ class FileController extends Controller
 
         if (!file_exists($path)) {
             $file = $request->file('file');
-            $file->storeAs($path, md5_file($file->getRealPath()) . "." . $file->getClientOriginalName(), 'files');
+            $file->storeAs($path, md5($file->getRealPath()) . "." . $file->getClientOriginalName(), 'files');
             return redirect("/confirmation")->with('uploadSuccess', 'File uploaded successfully.');
         } else {
             return redirect("/confirmation")->with('uploadError', 'The file already exists!');
         }
     }
 }
+
+// Manage upload of multiple files (to do)
