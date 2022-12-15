@@ -7,7 +7,8 @@ absolute top-10 left-1/2 -translate-x-1/2">
         <button id="create-folder" class="w-full px-4 py-2 rounded-full bg-red-500 border-2 border-red-900
         text-xl text-white">CREATE FOLDER</button>
     </div>
-    <form id="upload-form" action="" class="hidden">
+    <form id="upload-form" action="/files/upload" method="POST" class="hidden"
+    enctype="multipart/form-data">
         @csrf
         <div>
             <div class="relative">
@@ -15,31 +16,45 @@ absolute top-10 left-1/2 -translate-x-1/2">
                     <i id="upload-back" class="fa-solid fa-arrow-left cursor-pointer"></i>
                 </div>
                 <div class="flex justify-center mb-10">
-                    <label class="text-4xl text-white font-semibold" for="">
-                        UPLOAD
+                    <label class="text-4xl text-white font-semibold">
+                        UPLOAD FILE
                     </label>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <select name="" id="" class="w-full p-2 text-2xl rounded-lg bg-neutral-800 text-white">
-                        <option value="" selected>Choose folder</option>
-                        <option value="">2</option>
-                        <option value="">2</option>
-                        <option value="">2</option>
+                    <input 
+                    type="file" 
+                    id="upload-file" 
+                    name="file"
+                    class="hidden">
+                    <select 
+                    name="folderPath" 
+                    id="upload-folder-path" 
+                    onchange="getUploadSubDir(this.value)"
+                    required
+                    class="w-full p-2 text-2xl rounded-lg bg-neutral-800 text-white">
+                        <option value="choose" selected>Choose folder</option>
+                        @foreach ($folders as $folder)
+                            <option value="{{$folder}}">{{$folder}}</option>
+                        @endforeach
                     </select>
-                    <select name="" id="" class="w-full p-2 text-2xl rounded-lg bg-neutral-800 text-white">
-                        <option value="" selected>Choose sub folder</option>
-                        <option value="">2</option>
-                        <option value="">2</option>
-                        <option value="">2</option>
+                    <select 
+                    name="subfolderPath" 
+                    id="upload-subfolder-path" 
+                    disabled
+                    class="w-full p-2 text-2xl rounded-lg bg-neutral-800 text-white">
+                        <option value="choose" selected>Choose sub folder</option>
                     </select>
-                    <button class="w-full px-4 py-2 rounded-full bg-red-500 border-2 border-red-900
-                    text-2xl text-white font-semibold">
+                    <label for="upload-file"
+                    class="w-full px-4 py-2 rounded-lg bg-red-500 border-2 border-red-900
+                    text-2xl text-white font-semibold text-center cursor-pointer">
                         Select File
-                    </button>
+                    </label>
                 </div>
                 <div class="flex justify-center text-7xl text-white items-center mt-20">
-                    <i class="fa-solid fa-cloud-arrow-up rounded-full
-                    bg-red-900 p-10 cursor-pointer"></i>
+                    <button
+                    type="submit" 
+                    class="fa-solid fa-cloud-arrow-up rounded-full
+                    bg-red-900 p-10 cursor-pointer"></button>
                 </div>
             </div>
         </div>
@@ -92,7 +107,7 @@ absolute top-10 left-1/2 -translate-x-1/2">
                     <label for="folder-file"
                     class="w-full px-4 py-2 rounded-lg bg-red-500 border-2 border-red-900
                     text-2xl text-white font-semibold text-center cursor-pointer">
-                    Select File
+                        Select File
                     </label>
                 </div>
                 <div class="flex justify-center text-7xl text-white items-center mt-20">

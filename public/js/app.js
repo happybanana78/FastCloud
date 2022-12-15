@@ -9,6 +9,7 @@ const uploadButtons = document.getElementById('upload-buttons');    // Buttons w
 const uploadBackBtn = document.getElementById('upload-back');   // Back from upload button
 const createBackBtn = document.getElementById('create-back');   // Back from create folder button
 const subFolderSelect = document.getElementById('subfolder-path');  // Subfolder path select
+const uploadSubFolderSelect = document.getElementById('upload-subfolder-path');  // Upload subfolder path select
 
 // Handle upload modal
 mainUploadBtn.addEventListener('click', () => {
@@ -62,6 +63,31 @@ function getSubDir(parent) {
                 subFolderSelect.removeChild(options[i]);
             }
             subFolderSelect.disabled = true;
+        }
+    }).catch((error) => {
+        console.log(error)
+    });
+}
+
+// Get sub directories for file upload
+function getUploadSubDir(parent) {
+    axios.post('/api/files/subfolders', {parent: parent})
+    .then((response) => {
+        if (response.data !== "nope") {
+            uploadSubFolderSelect.disabled = false;
+            response.data.forEach(sub => {
+                let selectOption = document.createElement('option');
+                selectOption.value = sub;
+                selectOption.classList.add('sub-dir')
+                selectOption.innerHTML = sub;
+                uploadSubFolderSelect.appendChild(selectOption);
+            });
+        } else {
+            const options = document.getElementsByClassName('sub-dir');
+            for(let i = 0; i < options.length; i++) {
+                uploadSubFolderSelect.removeChild(options[i]);
+            }
+            uploadSubFolderSelect.disabled = true;
         }
     }).catch((error) => {
         console.log(error)

@@ -4,10 +4,26 @@
     <section class="mt-20 px-20">
         <div class="bg-red-500 p-5 space-y-10">
             <div class="w-full flex justify-center">
-                
-                    <span class="font-semibold text-white text-3xl">Folder created successfully and file
-                        uploaded to the same path.</span>
-                
+                @if (session()->has("uploadSuccess"))
+                    <span class="font-semibold text-white text-3xl">
+                        {{session()->get("uploadSuccess")}}
+                    </span>
+                @endif
+                @if (session()->has("uploadError"))
+                    <span class="font-semibold text-white text-3xl">
+                        {{session()->get("uploadError")}}
+                    </span>
+                @endif
+                @if (session()->has("createSuccess"))
+                    <span class="font-semibold text-white text-3xl">
+                        {{session()->get("createSuccess")}}
+                    </span>
+                @endif
+                @if (session()->has("createError"))
+                    <span class="font-semibold text-white text-3xl">
+                        {{session()->get("createError")}}
+                    </span>
+                @endif
             </div>
             <div class="w-full flex justify-center">
                 <a href="/" class="px-4 py-2 bg-red-800 border-2 border-red-900 text-white font-semibold
