@@ -24,7 +24,8 @@ absolute top-10 left-1/2 -translate-x-1/2">
                     <input 
                     type="file" 
                     id="upload-file" 
-                    name="file"
+                    name="files[]"
+                    multiple="multiple"
                     class="hidden">
                     <select 
                     name="folderPath" 
@@ -84,7 +85,8 @@ absolute top-10 left-1/2 -translate-x-1/2">
                     <input 
                     type="file" 
                     id="folder-file" 
-                    name="file"
+                    name="files[]"
+                    multiple="multiple"
                     class="hidden">
                     <select 
                     name="folderPath" 
