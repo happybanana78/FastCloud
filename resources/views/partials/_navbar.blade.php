@@ -12,9 +12,9 @@
         SETTINGS
       </a>
     </div>
-    <button id="upload-btn" class="px-4 py-4 bg-red-900 text-white rounded-full font-semibold
+    <a href="/files/create" class="px-4 py-4 bg-red-900 text-white rounded-full font-semibold
     hover:bg-red-800 flex justify-center space-x-4 items-center text-3xl">
       <i class="fa-solid fa-cloud-arrow-up"></i>
       <span>Upload File</span>
-    </button>
+    </a>
 </nav>

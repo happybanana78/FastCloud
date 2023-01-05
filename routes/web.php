@@ -14,7 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [FileController::class, 'index']);
+// Home page with file list
+Route::get('/', function () {
+    return view('files.index');
+});
+
+// Upload files create new folders
+Route::get('/files/create', function () {
+    return view('files.create');
+});
 
 Route::get('/confirmation', [FileController::class, 'toConfirmation']);
 

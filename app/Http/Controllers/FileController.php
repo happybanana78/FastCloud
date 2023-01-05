@@ -9,54 +9,6 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    // Get folders list
-    public function index() {
-        $path = 'assets/files';
-        $folderNameList = [];
-        $folderList = scandir($path);
-
-        // Get all folders names
-        foreach($folderList as $folder) {
-            if (basename($folder) != '.' && basename($folder) != '..') {
-                if (is_dir($path . "/" . basename($folder))) {
-                    array_push($folderNameList, basename($folder));
-                }
-            }
-        }
-
-        // Get all file names
-        foreach($folderList as $folder) {
-            if (basename($folder) != '.' && basename($folder) != '..') {
-                if (!is_dir($path . "/" . basename($folder))) {
-                    $this->setFileInfo($folder, $path);
-                } else {
-                    $subDir = scandir($path . "/" . basename($folder));
-                    foreach ($subDir as $folder2) {
-                        if (!is_dir($path . "/" . basename($folder). "/" . basename($folder2))) {
-                            $this->setFileInfo($folder2, $path . "/" . basename($folder));
-                        } else {
-                            $subDir2 = scandir($path . "/" . basename($folder) . "/" . basename($folder2));
-                            foreach ($subDir2 as $folder3) {
-                                if (!is_dir($path . "/" . basename($folder). "/" . basename($folder2) . "/" . 
-                                basename($folder3))) {
-                                    $this->setFileInfo($folder3, $path . "/" . basename($folder) . "/" . 
-                                    basename($folder2));
-                                } else {
-                                    // one more layer deep (to do)
-                                }
-                            }
-                        }
-                    } 
-                }
-            }
-        }
-
-        return view('main', [
-            "folders" => $folderNameList,
-            "files" => File::all(),
-        ]);
-    }
-
     // Set files
     private function setFileInfo($file, $path) {
         // Set file name

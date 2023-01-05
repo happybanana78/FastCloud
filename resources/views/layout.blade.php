@@ -8,15 +8,16 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     @vite('resources/css/app.css')
     <title>FastCloud</title>
+    @livewireStyles
 </head>
 <body>
     @include('partials._navbar')
-    @yield('content')
-    @yield('confirmation')
-
+    @yield('index')
+    @yield('create')
 
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{asset('js/app.js')}}"></script>
+    @livewireScripts
 </body>
 </html>
