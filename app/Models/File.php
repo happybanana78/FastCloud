@@ -18,6 +18,6 @@ class File extends Model
     ];
 
     public function folder() {
-        return $this->belongsTo(Folder::class, 'name');
+        return $this->belongsTo(Folder::class);
     }
 }

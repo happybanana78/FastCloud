@@ -25,7 +25,10 @@ border-zinc-900 shadow-2xl mt-20">
                 @foreach ($files as $file)  
                     <div class="flex flex-col space-y-2 w-24 text-center
                     @if (!$showFilesIfNull) hidden @endif">
-                        <a><i class="fa-solid fa-file cursor-pointer text-8xl"></i></a>
+                        <a download="{{$file->name}}" 
+                        href="{{$file->folder->path . "/" . $file->realName}}">
+                            <i class="fa-solid fa-file cursor-pointer text-8xl"></i>
+                        </a>
                         <span class="font-semibold text-2xl text-center break-words">
                             {{$file->name}}
                         </span>

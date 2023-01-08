@@ -65,6 +65,7 @@ class Index extends Component
             $this->showFilesIfNull = false;
         }
 
+        $this->getFiles();
         $this->getFolders();
     }
 
