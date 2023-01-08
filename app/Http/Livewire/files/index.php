@@ -5,15 +5,18 @@ namespace App\Http\Livewire\files;
 use App\Models\File;
 use App\Models\Folder;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Index extends Component
 {
+    use WithFileUploads;
+
     public $folders;    // List of folders
     public Folder $folder;  // Data of specific clicked folder
     public $files = []; // List of files in folder
     public $depth = 0;  // Depth level of clicked folder
     public $showFilesIfNull;    // Don't show files in folder if $folder value is null
-    public $file;   // Uploaded file data
+    public $uploadedFile;   // Uploaded file data
 
     public function mount() {
         
@@ -67,7 +70,22 @@ class Index extends Component
 
     // Handle new file upload
     public function upload() {
-        // TO-DO
+        $file = $this->uploadedFile->store('public/files');
+        $splitFile = explode("/", $file);
+        $fileTempName = $splitFile[count($splitFile) - 1];
+        $fileExtension = explode(".", $fileTempName)[1];
+        $fileSize = $this->uploadedFile->getSize();
+
+        File::create([
+            'realName' => $fileTempName,
+            'name' => $this->uploadedFile->getClientOriginalName(),
+            'size' => $fileSize,
+            'format' => $fileExtension,
+            'folder_id' => $this->folder->id,
+        ]);
+
+        $this->getFiles();
+        $this->getFolders();
     }
 
     public function render()

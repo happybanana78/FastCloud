@@ -17,7 +17,7 @@ class FolderFactory extends Factory
     public function definition()
     {
         return [
-            'path' => "/assets/files/uploads/",
+            'path' => "/storage/files/",
             'name' => "uploads",
             'sorting' => 0,
         ];

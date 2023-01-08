@@ -14,7 +14,7 @@ class File extends Model
         'name',
         'size',
         'format',
-        'location',
+        'folder_id',
     ];
 
     public function folder() {

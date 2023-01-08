@@ -21,26 +21,31 @@ border-zinc-900 shadow-2xl mt-20">
                     </div>
                 </div>
             @endforeach
-            @foreach ($files as $file)
-                <div class="flex items-center space-x-10 @if (!$showFilesIfNull) hidden @endif">
-                    <div class="flex flex-col space-y-2 w-fit">
+            <div class="flex space-x-10">
+                @foreach ($files as $file)  
+                    <div class="flex flex-col space-y-2 w-24 text-center
+                    @if (!$showFilesIfNull) hidden @endif">
                         <a><i class="fa-solid fa-file cursor-pointer text-8xl"></i></a>
-                        <span class="font-semibold text-2xl text-center">{{$file->realName}}</span>
+                        <span class="font-semibold text-2xl text-center break-words">
+                            {{$file->name}}
+                        </span>
                     </div>
-                    <div class="flex space-x-5">
-                        <i class="fa-solid fa-folder-plus cursor-pointer text-6xl"></i>
-                        <form id="uploadForm" wire:submit.prevent="upload" class="hidden">
-                            <input 
-                            id="file" 
-                            type="file" 
-                            wire:model="file" 
-                            onchange="document.getElementById('uploadForm').submit()">
-                        </form>
-                        <i onclick="document.getElementById('file').click()" 
-                        class="fa-solid fa-file-circle-plus cursor-pointer text-6xl"></i>   
-                    </div>
+                @endforeach
+                <div class="flex space-x-5 items-center @if (!$showFilesIfNull) hidden @endif">
+                    <i class="fa-solid fa-folder-plus cursor-pointer text-6xl"></i>
+                    <form wire:submit.prevent="upload" class="hidden">
+                        <input 
+                        id="file" 
+                        type="file" 
+                        wire:model="uploadedFile" 
+                        onchange="setTimeout(() => {document.getElementById('uploadBtn').click()}, 1000)">
+                        <button id="uploadBtn" type="submit"></button>
+                    </form>
+                    @error('uploadedFile') <span class="error">{{ $message }}</span> @enderror
+                    <label for="file" 
+                    class="fa-solid fa-file-circle-plus cursor-pointer text-6xl"></label>   
                 </div>
-            @endforeach
+            </div>
         </div>
     </div>
 </main>
