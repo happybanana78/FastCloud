@@ -17,10 +17,10 @@ class FileFactory extends Factory
     public function definition()
     {
         return [
-            'realName' => "err676r786r7wf7yfe",
+            'realName' => "RkxCmYYtcNcfCu8qH4tHV8k3YLHTbg0h9sTkdcXd.png",
             'name' => "doc",
-            'size' => "1Mb",
-            'format' => "jpg",
+            'size' => 30305,
+            'format' => "png",
             'folder_id' => 1,
         ];
     }

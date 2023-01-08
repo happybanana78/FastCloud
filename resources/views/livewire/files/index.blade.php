@@ -25,10 +25,15 @@ border-zinc-900 shadow-2xl mt-20">
                 @foreach ($files as $file)  
                     <div class="flex flex-col space-y-2 w-24 text-center
                     @if (!$showFilesIfNull) hidden @endif">
-                        <a download="{{$file->name}}" 
-                        href="{{$file->folder->path . "/" . $file->realName}}">
-                            <i class="fa-solid fa-file cursor-pointer text-8xl"></i>
-                        </a>
+                        <div class="relative">
+                            <a download="{{$file->name}}" 
+                            href="{{$file->folder->path . "/" . $file->realName}}">
+                                <i class="fa-solid fa-file cursor-pointer text-8xl">
+                                </i>
+                            </a>
+                            <i wire:click="removeFile({{$file->id}})" class="fa-solid fa-xmark text-2xl
+                            bg-white absolute -top-5 left-0 w-8 h-8 rounded-full cursor-pointer"></i>
+                        </div>
                         <span class="font-semibold text-2xl text-center overflow-hidden 
                         text-ellipsis hover:overflow-visible hover:text-clip hover:break-words">
                             {{$file->name}}

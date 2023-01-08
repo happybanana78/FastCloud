@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('realName');
             $table->string('name')->unique();
-            $table->string('size');
+            $table->integer('size');
             $table->string('format');
             $table->foreignId('folder_id')
                 ->references('id')

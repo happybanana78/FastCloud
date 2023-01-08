@@ -89,6 +89,17 @@ class Index extends Component
         $this->getFolders();
     }
 
+    public function removeFile($id) {
+        $file = File::find($id);
+
+        unlink(public_path($file->folder->path . $file->realName));
+
+        $file->delete();
+
+        $this->getFiles();
+        $this->getFolders();
+    }
+
     public function render()
     {
         return view('livewire.files.index');
