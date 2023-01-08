@@ -29,12 +29,13 @@ border-zinc-900 shadow-2xl mt-20">
                         href="{{$file->folder->path . "/" . $file->realName}}">
                             <i class="fa-solid fa-file cursor-pointer text-8xl"></i>
                         </a>
-                        <span class="font-semibold text-2xl text-center break-words">
+                        <span class="font-semibold text-2xl text-center overflow-hidden 
+                        text-ellipsis hover:overflow-visible hover:text-clip hover:break-words">
                             {{$file->name}}
                         </span>
                     </div>
                 @endforeach
-                <div class="flex space-x-5 items-center @if (!$showFilesIfNull) hidden @endif">
+                <div class="flex space-x-5 @if (!$showFilesIfNull) hidden @endif">
                     <i class="fa-solid fa-folder-plus cursor-pointer text-6xl"></i>
                     <form wire:submit.prevent="upload" class="hidden">
                         <input 
