@@ -17,8 +17,14 @@ class Index extends Component
     public $depth = 0;  // Depth level of clicked folder
     public $showFilesIfNull;    // Don't show files in folder if $folder value is null
     public $uploadedFile;   // Uploaded file data
+    public $folderName; // Create folder name
 
     public function mount() {
+
+        // Set folder to first entry in folder tree
+        $this->folder = Folder::select()
+            ->where('sorting', $this->depth)
+            ->first();
         
         $this->getFolders();
     }
@@ -89,12 +95,28 @@ class Index extends Component
         $this->getFolders();
     }
 
+    // Remove a file from DB and from disk
     public function removeFile($id) {
         $file = File::find($id);
 
         unlink(public_path($file->folder->path . $file->realName));
 
         $file->delete();
+
+        $this->getFiles();
+        $this->getFolders();
+    }
+
+    // Create a new folder
+    public function createFolder() {
+
+        Folder::create([
+            'path' => $this->folder->path,
+            'name' => $this->folderName,
+            'sorting' => $this->depth,
+        ]);
+
+        
 
         $this->getFiles();
         $this->getFolders();

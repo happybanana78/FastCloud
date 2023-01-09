@@ -12,5 +12,6 @@ class Folder extends Model
     protected $fillable = [
         'path',
         'name',
+        'sorting',
     ];
 }
